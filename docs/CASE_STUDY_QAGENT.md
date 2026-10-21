@@ -32,6 +32,7 @@ The evaluation adheres to Harness² design principles:
 | **Phase 2: Stress Evaluation** | **Task A:** Multi-tenant helpdesk with RBAC and audit log.<br>**Task B:** Idempotent legacy schema migration with rollback. | Task A: 3/3 passed<br>Task B: 2/2 passed | Task A: 3/3 passed<br>Task B: 2/2 passed | **PASSED**. q-agent demonstrated autonomous repair: an adversarial reviewer flagged a timezone-aware vs. naive datetime comparison; q-agent resolved it cleanly on round 2 of its bounded budget. |
 | **Phase 3: Concurrency & Lock Contention** | Atomic ticket claiming under race condition (10 worker race) and 20-thread burst write under WAL contention. | 2/2 passed (0.070s) | 2/2 passed (0.041s) | **PASSED (2/2)**. q-agent implemented atomic conditional UPDATE (`rowcount == 1`), `timeout=15.0`, and isolated adversarial review APPROVED. |
 | **Phase 4: Context Recovery** | 3-phase cold-start recovery across ephemeral sessions: Slice A (init/storage), Slice B (transition logic), and Slice C (production SLA regression repair). | Slices A, B, C: passed | Slices A, B, C: passed | **PASSED (6/6)**. In Slice C, q-agent diagnosed an injected SLA constant regression and applied a surgical fix, avoiding destructive wholesale file reverts and preserving uncommitted Slices A/B. |
+| **Phase 5: JobBench Official Benchmark** | Full occupational task (`computer_user_support_specialists/task1`) evaluated under the recursive Propose–Probe–Compose loop (`agg1`) with DeepSeek. | Base: 1/1 completed | Refined (`agg1`): **89.29%** | **PASSED (31/32 criteria)**. Composed harness surpassed base (`chosen_is_base: false`), achieving 50/56 weighted points at $0.24 USD improver spend. |
 
 ---
 
@@ -39,6 +40,8 @@ The evaluation adheres to Harness² design principles:
 
 1. **Functional Equivalence on Small Horizons:** On single, bounded tasks, both baseline and q-agent instructions achieved passing functional scores, confirming the viability of the local Codex CLI substrate.
 2. **Qualitative Superiority in Multi-Session Lifecycles:** When simulating multi-session development with cold restarts (`--ephemeral`), q-agent's repository-backed task ledger (`odd/tasks/`) prevented catastrophic forgetting and guided precise defect remediation without regressions.
+3. **Adaptive Harness Superiority (JobBench):** Under the official Harness² benchmark loop, the refined composed harness (`agg1`) outperformed the raw base instructions with an 89.29% pass rate across 8 occupational rubrics, confirming the core thesis of arXiv:2610.14224 (harness adaptation drives agent capability).
+4. **Actionable Feedback from Rubric Failure:** The single missing criterion in JobBench (Rubric 7, Criterion 0) identified that the model captured all semantic fields (`ssl_cert_expiry`, date, notes) but omitted the explicit primary key (`config_id 12`). Incorporating a strict "Primary Key Citation Rule" directly feeds back into agent harness prompt engineering.
 
 ---
 
